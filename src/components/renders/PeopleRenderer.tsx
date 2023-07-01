@@ -14,13 +14,13 @@ const PeopleRenderer = (props: IPerson) => {
             🧸 {firstName} {lastName}
           </h3>
           <ul>
-            <li>
-              <b>👁️ Has {eyeColor} color </b>
+            <li className='p-2'>
+              👁️ Has <b>{eyeColor}</b> color
             </li>
             <li>
               🎂 Birthday:{' '}
               <b>
-                <Moment date={birthday} format='MMM D, YYYY' />
+                <Moment date={birthday} format='MMMM D, YYYY' />
               </b>
             </li>
           </ul>

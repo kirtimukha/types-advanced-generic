@@ -12,55 +12,72 @@ import WidgetRenderer from './components/renders/WidgetRenderer';
 import PeopleRenderer from './components/renders/PeopleRenderer';
 
 function App() {
+  const [showPeople, setShowPeople] = useState<boolean>(false);
+  const buttonText = showPeople ? 'Show widgets' : 'show People';
   const [query, setQuery] = useState<string>('');
   const [widgetSortProperty, setWidgetSortProperty] = useState<
     IProperty<IWidget>
   >({
     property: 'title',
+    isDescending: true,
   });
   const [peopleSortProperty, setPeopleSortProperty] = useState<
     IProperty<IPerson>
-  >({ property: 'firstName' });
+  >({ property: 'firstName', isDescending: true });
   return (
     <>
+      <button
+        className='btn btn-primary'
+        onClick={() => setShowPeople(!showPeople)}
+      >
+        {buttonText}
+      </button>
+      <br />
       <SearchInput
         setSearchQuery={(query) => {
           console.log("I'm firing");
           setQuery(query);
         }}
       />
-      <h2>Widegets: </h2>
-      <Sorters<IWidget>
-        object={widgets[0]}
-        setProperty={(property) => setWidgetSortProperty({ property })}
-      />
-      {widgets
-        .filter((widget) =>
-          genericSearch(widget, ['title', 'description'], query, true)
-        )
-        .sort((a, b) => genericSort(a, b, widgetSortProperty.property))
-        .map((widget, index) => {
-          return <WidgetRenderer key={widget.id} {...widget} />;
-        })}
-
+      {!showPeople && (
+        <>
+          <h2>Widegets: </h2>
+          <Sorters<IWidget>
+            object={widgets[0]}
+            setProperty={(propertyType) => setWidgetSortProperty(propertyType)}
+          />
+          {widgets
+            .filter((widget) =>
+              genericSearch(widget, ['title', 'description'], query, true)
+            )
+            .sort((a, b) => genericSort(a, b, widgetSortProperty))
+            .map((widget, index) => {
+              return <WidgetRenderer key={widget.id} {...widget} />;
+            })}
+        </>
+      )}
       <h2>People: </h2>
       <Sorters<IPerson>
         object={people[0]}
-        setProperty={(property) => setPeopleSortProperty({ property })}
+        setProperty={(propertyType) => setPeopleSortProperty(propertyType)}
       />
-      {people
-        .filter((person) =>
-          genericSearch(
-            person,
-            ['firstName', 'lastName', 'eyeColor'],
-            query,
-            true
-          )
-        )
-        .sort((a, b) => genericSort(a, b, peopleSortProperty.property))
-        .map((person, index) => {
-          return <PeopleRenderer {...person} />;
-        })}
+      {showPeople && (
+        <>
+          {people
+            .filter((person) =>
+              genericSearch(
+                person,
+                ['firstName', 'lastName', 'eyeColor'],
+                query,
+                true
+              )
+            )
+            .sort((a, b) => genericSort(a, b, peopleSortProperty))
+            .map((person, index) => {
+              return <PeopleRenderer {...person} />;
+            })}
+        </>
+      )}
     </>
   );
 }

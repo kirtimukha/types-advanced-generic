@@ -14,7 +14,7 @@ export function Sorters<T extends {}>(props: ISortersProps<T>) {
       <select
         id='sorters'
         className='custom-select'
-        onChange={(event) => {
+        onChange={event => {
           const values = event.target.value.split('-');
           if (values.length === 2) {
             setProperty({
@@ -24,7 +24,7 @@ export function Sorters<T extends {}>(props: ISortersProps<T>) {
           }
         }}
       >
-        {Object.keys(object).map((key) => {
+        {Object.keys(object).map(key => {
           return (
             <>
               <option key={`${key}-true`} value={`${key}-true`}>

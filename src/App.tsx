@@ -1,24 +1,26 @@
-import React, { useState } from "react";
-import people from "./mock-data/people";
-import widgets from "./mock-data/widgets";
-import genericSearch from "./utils/genericSearch";
-import SearchInput from "./components/SearchInput";
-import genericSort from "./utils/genericSort";
-import IProperty from "./interface/IProperty";
-import IWidget from "./interface/IWidget";
-import IPerson from "./interface/IPerson";
-import { Sorters } from "./components/Sorters";
+import React, { useState } from 'react';
+import people from './mock-data/people';
+import widgets from './mock-data/widgets';
+import genericSearch from './utils/genericSearch';
+import SearchInput from './components/SearchInput';
+import genericSort from './utils/genericSort';
+import IProperty from './interface/IProperty';
+import IWidget from './interface/IWidget';
+import IPerson from './interface/IPerson';
+import { Sorters } from './components/Sorters';
+import WidgetRenderer from './components/renders/WidgetRenderer';
+import PeopleRenderer from './components/renders/PeopleRenderer';
 
 function App() {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
   const [widgetSortProperty, setWidgetSortProperty] = useState<
     IProperty<IWidget>
   >({
-    property: "title",
+    property: 'title',
   });
   const [peopleSortProperty, setPeopleSortProperty] = useState<
     IProperty<IPerson>
-  >({ property: "firstName" });
+  >({ property: 'firstName' });
   return (
     <>
       <SearchInput
@@ -34,11 +36,11 @@ function App() {
       />
       {widgets
         .filter((widget) =>
-          genericSearch(widget, ["title", "description"], query, true)
+          genericSearch(widget, ['title', 'description'], query, true)
         )
         .sort((a, b) => genericSort(a, b, widgetSortProperty.property))
         .map((widget, index) => {
-          return <h3 key={index}>{widget.title}</h3>;
+          return <WidgetRenderer key={widget.id} {...widget} />;
         })}
 
       <h2>People: </h2>
@@ -50,18 +52,14 @@ function App() {
         .filter((person) =>
           genericSearch(
             person,
-            ["firstName", "lastName", "eyeColor"],
+            ['firstName', 'lastName', 'eyeColor'],
             query,
             true
           )
         )
         .sort((a, b) => genericSort(a, b, peopleSortProperty.property))
         .map((person, index) => {
-          return (
-            <h3 key={index}>
-              {person.firstName} {person.lastName}
-            </h3>
-          );
+          return <PeopleRenderer {...person} />;
         })}
     </>
   );

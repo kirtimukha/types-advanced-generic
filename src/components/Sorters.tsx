@@ -28,7 +28,7 @@ export function Sorters<T extends {}>(props: ISortersProps<T>) {
           }
         }}
       >
-        {Object.keys(object)?.map((key) => {
+        {Object.keys(object).map((key) => {
           return (
             <React.Fragment key={key}>
               <option key={`${key}-true`} value={`${key}-true`}>

@@ -2,6 +2,7 @@ import IPerson from "../interface/IPerson";
 
 const people: Array<IPerson> = [
   {
+    id: 0,
     firstName: "Boyle",
     lastName: "Sanford",
     eyeColor: "blue",
@@ -10,6 +11,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 1,
     firstName: "Fleming",
     lastName: "Bruce",
     eyeColor: "blue",
@@ -18,6 +20,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 2,
     firstName: "Benton",
     lastName: "Walters",
     eyeColor: "green",
@@ -26,6 +29,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 3,
     firstName: "Scott",
     lastName: "Bernard",
     eyeColor: "hazel",
@@ -34,6 +38,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 4,
     firstName: "Stuart",
     lastName: "Briggs",
     eyeColor: "green",
@@ -42,6 +47,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 5,
     firstName: "Horn",
     lastName: "Brown",
     eyeColor: "hazel",
@@ -50,6 +56,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 6,
     firstName: "Elvira",
     lastName: "Barnes",
     eyeColor: "hazel",
@@ -58,6 +65,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 7,
     firstName: "Rutledge",
     lastName: "Stevenson",
     eyeColor: "green",
@@ -66,6 +74,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 8,
     firstName: "Pitts",
     lastName: "Logan",
     eyeColor: "brown",
@@ -74,6 +83,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 9,
     firstName: "Loraine",
     lastName: "Manning",
     eyeColor: "brown",
@@ -82,6 +92,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 10,
     firstName: "Lesley",
     lastName: "Oconnor",
     eyeColor: "blue",
@@ -90,6 +101,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 11,
     firstName: "Huffman",
     lastName: "Kirby",
     eyeColor: "blue",
@@ -98,6 +110,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 12,
     firstName: "Hernandez",
     lastName: "Mack",
     eyeColor: "brown",
@@ -106,6 +119,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 13,
     firstName: "Deana",
     lastName: "Wilkerson",
     eyeColor: "blue",
@@ -114,6 +128,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 14,
     firstName: "Aida",
     lastName: "Carter",
     eyeColor: "hazel",
@@ -122,6 +137,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 15,
     firstName: "Stephenson",
     lastName: "Page",
     eyeColor: "blue",
@@ -130,6 +146,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 16,
     firstName: "Hoffman",
     lastName: "Kirkland",
     eyeColor: "blue",
@@ -138,6 +155,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 17,
     firstName: "Patel",
     lastName: "Weaver",
     eyeColor: "brown",
@@ -146,6 +164,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 18,
     firstName: "Lawanda",
     lastName: "Le",
     eyeColor: "brown",
@@ -154,6 +173,7 @@ const people: Array<IPerson> = [
     ),
   },
   {
+    id: 19,
     firstName: "Knox",
     lastName: "Macias",
     eyeColor: "hazel",

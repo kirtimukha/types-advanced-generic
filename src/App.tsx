@@ -1,38 +1,13 @@
 import React, { useState } from "react";
 import people from "./mock-data/people";
 import widgets from "./mock-data/widgets";
-import genericSearch from "./utils/genericSearch";
-import SearchInput from "./components/SearchInput";
-import genericSort from "./utils/genericSort";
-import IWidget from "./interface/IWidget";
-import IPerson from "./interface/IPerson";
-import { Sorters } from "./components/Sorters";
-import WidgetRenderer from "./components/renders/WidgetRenderer";
-import PeopleRenderer from "./components/renders/PeopleRenderer";
-import genericFilter from "./utils/genericFilter";
-import Filters from "./components/Filters";
-import IFilter from "./interface/IFilter";
-import ISorter from "./interface/ISorter";
+import { WidgetRenderer } from "./components/renders/WidgetRenderer";
+import { PeopleRenderer } from "./components/renders/PeopleRenderer";
+import { SearchSortAndFilter } from "./components/SearchSortAndFilter";
 
 function App() {
-  const [widgetFilterProperties, setWidgetFilterProperties] = useState<
-    Array<IFilter<IWidget>>
-  >([]);
-  const [peopleFilterProperties, setPeopleFilterProperties] = useState<
-    Array<IFilter<IPerson>>
-  >([]);
-
-  const [widgetSortProperty, setWidgetSortProperty] = useState<
-    ISorter<IWidget>
-  >({ property: "title", isDescending: true });
-  const [peopleSortProperty, setPeopleSortProperty] = useState<
-    ISorter<IPerson>
-  >({ property: "firstName", isDescending: true });
-
   const [showPeople, setShowPeople] = useState<boolean>(false);
   const buttonText = showPeople ? "Show widgets" : "show People";
-  const [query, setQuery] = useState<string>("");
-
   return (
     <>
       <button
@@ -42,122 +17,33 @@ function App() {
         {buttonText}
       </button>
       <br />
-      <SearchInput
-        setSearchQuery={(query) => {
-          setQuery(query);
-        }}
-      />
+
       {!showPeople && (
         <>
-          <h2>Widegets: </h2>
-          <Sorters dataSource={widgets} initialSortProperty="title">
-            {(widget) => <WidgetRenderer {...widget} />}
-          </Sorters>
-          <br />
-          <Filters
-            object={widgets[0]}
-            properties={widgetFilterProperties}
-            onChangeFilter={(property) => {
-              const propertyMatch = widgetFilterProperties.some(
-                (widgetFilterProperty) =>
-                  widgetFilterProperty.property === property.property
-              );
-              const fullMatch = widgetFilterProperties.some(
-                (widgetFilterProperty) =>
-                  widgetFilterProperty.property === property.property &&
-                  widgetFilterProperty.isTruthySelected ===
-                    property.isTruthySelected
-              );
-              if (fullMatch) {
-                setWidgetFilterProperties(
-                  widgetFilterProperties.filter(
-                    (widgetFilterProperty) =>
-                      widgetFilterProperty.property !== property.property
-                  )
-                );
-              } else if (propertyMatch) {
-                setWidgetFilterProperties([
-                  ...widgetFilterProperties.filter(
-                    (widgetFilterProperty) =>
-                      widgetFilterProperty.property !== property.property
-                  ),
-                  property,
-                ]);
-              } else {
-                setWidgetFilterProperties([
-                  ...widgetFilterProperties,
-                  property,
-                ]);
-              }
-            }}
-          />
-          {widgets
-            .filter((widget) =>
-              genericSearch(widget, ["title", "description"], query, true)
-            )
-            .filter((widget) => genericFilter(widget, widgetFilterProperties))
-            .sort((a, b) => genericSort(a, b, widgetSortProperty))
-            .map((widget, index) => {
-              return <WidgetRenderer key={widget.id} {...widget} />;
-            })}
+          <SearchSortAndFilter
+            title="Widgets:"
+            searchProperties={["title", "description"]}
+            dataSource={widgets}
+            initialSortProperty={{ property: "title", isDescending: true }}
+            initialFilterProperties={[]}
+            inisialSearchQuery="type"
+          >
+            {(widget) => <WidgetRenderer {...widget} key={widget.id} />}
+          </SearchSortAndFilter>
         </>
       )}
-      <h2>People: </h2>
-      <Sorters dataSource={people} initialSortProperty="firstName">
-        {(person) => <PeopleRenderer {...person} />}
-      </Sorters>
-      <br />
-      <Filters
-        object={people[0]}
-        properties={peopleFilterProperties}
-        onChangeFilter={(property) => {
-          const propertyMatch = peopleFilterProperties.some(
-            (peopleFilterProperty) =>
-              peopleFilterProperty.property === property.property
-          );
-          const fullMatch = peopleFilterProperties.some(
-            (peopleFilterProperty) =>
-              peopleFilterProperty.property === property.property &&
-              peopleFilterProperty.isTruthySelected ===
-                property.isTruthySelected
-          );
-          if (fullMatch) {
-            setPeopleFilterProperties(
-              peopleFilterProperties.filter(
-                (peopleFilterProperty) =>
-                  peopleFilterProperty.property !== property.property
-              )
-            );
-          } else if (propertyMatch) {
-            setPeopleFilterProperties([
-              ...peopleFilterProperties.filter(
-                (peopleFilterProperty) =>
-                  peopleFilterProperty.property !== property.property
-              ),
-              property,
-            ]);
-          } else {
-            setPeopleFilterProperties([...peopleFilterProperties, property]);
-          }
-        }}
-      />
-
       {showPeople && (
         <>
-          {people
-            .filter((person) =>
-              genericSearch(
-                person,
-                ["firstName", "lastName", "eyeColor"],
-                query,
-                true
-              )
-            )
-            .filter((person) => genericFilter(person, peopleFilterProperties))
-            .sort((a, b) => genericSort(a, b, peopleSortProperty))
-            .map((person, index) => {
-              return <PeopleRenderer {...person} />;
-            })}
+          <SearchSortAndFilter
+            title="People:"
+            searchProperties={["firstName", "lastName", "eyeColor"]}
+            dataSource={people}
+            initialSortProperty={{ property: "firstName", isDescending: true }}
+            initialFilterProperties={[]}
+            inisialSearchQuery="type"
+          >
+            {(person) => <PeopleRenderer {...person} key={person.id} />}
+          </SearchSortAndFilter>
         </>
       )}
     </>

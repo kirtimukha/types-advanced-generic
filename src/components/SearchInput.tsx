@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 
-export interface ISearchProps {
-  setSearchQuery: (searchQuery: string) => void;
+export interface ISearchInputProps {
+  searchQuery: string;
+
+  setSearchQuery(searchQuery: string): void;
 }
 
-const SearchInput = (props: ISearchProps) => {
-  const { setSearchQuery } = props;
-  const [query, setQuery] = useState<string>("");
+export function SearchInput(props: ISearchInputProps) {
+  const { setSearchQuery, searchQuery } = props;
+  const [query, setQuery] = useState<string>(searchQuery);
   const debouncedQuery = useDebounce(query, 250);
   useEffect(() => {
     setSearchQuery(debouncedQuery);
-  }, [debouncedQuery, setSearchQuery]);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedQuery]);
   return (
     <>
       <label htmlFor="search" className="mt-3">
@@ -23,11 +26,11 @@ const SearchInput = (props: ISearchProps) => {
         className="form-control full-width"
         placeholder="Search..."
         aria-label="Search"
+        value={query}
         onChange={(event) => {
           setQuery(event.target.value);
         }}
       />
     </>
   );
-};
-export default SearchInput;
+}

@@ -1,4 +1,4 @@
-import IProperty from '../interface/IProperty';
+import IProperty from "../interface/IProperty";
 
 export default function genericSort<T>(a: T, b: T, propertyType: IProperty<T>) {
   const { property, isDescending } = propertyType;

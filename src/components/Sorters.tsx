@@ -1,12 +1,24 @@
-import ISroperty from "../interface/ISroperty";
+import { ReactNode, useState } from "react";
+import ISorter from "../interface/ISorter";
+import genericSort from "../utils/genericSort";
+
+type PropsWithchildrenFunction<P, T> = P & { children?(item: T): ReactNode };
 
 export interface ISortersProps<T> {
-  object: T;
-  setProperty: (propertyType: ISroperty<T>) => void;
+  dataSource: Array<T>;
+  initialSortProperty: keyof T;
+  /*  setProperty: (propertyType: ISorter<T>) => void;*/
 }
 
-export function Sorters<T extends {}>(props: ISortersProps<T>) {
-  const { object, setProperty } = props;
+export function Sorters<T extends {}>(
+  props: PropsWithchildrenFunction<ISortersProps<T>, T>
+) {
+  const { dataSource, initialSortProperty, children } = props;
+  const [sortProperty, setSortProperty] = useState<ISorter<T>>({
+    property: initialSortProperty,
+    isDescending: true,
+  });
+  const object = dataSource.length > 0 ? dataSource[0] : {};
   return (
     <div className={`Sorters`}>
       <label htmlFor="sorters" className="mt-3">
@@ -18,7 +30,7 @@ export function Sorters<T extends {}>(props: ISortersProps<T>) {
         onChange={(event) => {
           const values = event.target.value.split("-");
           if (values.length === 2) {
-            setProperty({
+            setSortProperty({
               property: values[0] as any,
               isDescending: values[1] === "true",
             });
@@ -38,6 +50,10 @@ export function Sorters<T extends {}>(props: ISortersProps<T>) {
           );
         })}
       </select>
+      {children &&
+        dataSource
+          .sort((a, b) => genericSort(a, b, sortProperty))
+          .map((widget) => children(widget))}
     </div>
   );
 }

@@ -4,7 +4,6 @@ import widgets from "./mock-data/widgets";
 import genericSearch from "./utils/genericSearch";
 import SearchInput from "./components/SearchInput";
 import genericSort from "./utils/genericSort";
-import ISroperty from "./interface/ISroperty";
 import IWidget from "./interface/IWidget";
 import IPerson from "./interface/IPerson";
 import { Sorters } from "./components/Sorters";
@@ -13,6 +12,7 @@ import PeopleRenderer from "./components/renders/PeopleRenderer";
 import genericFilter from "./utils/genericFilter";
 import Filters from "./components/Filters";
 import IFilter from "./interface/IFilter";
+import ISorter from "./interface/ISorter";
 
 function App() {
   const [widgetFilterProperties, setWidgetFilterProperties] = useState<
@@ -21,21 +21,18 @@ function App() {
   const [peopleFilterProperties, setPeopleFilterProperties] = useState<
     Array<IFilter<IPerson>>
   >([]);
+
+  const [widgetSortProperty, setWidgetSortProperty] = useState<
+    ISorter<IWidget>
+  >({ property: "title", isDescending: true });
+  const [peopleSortProperty, setPeopleSortProperty] = useState<
+    ISorter<IPerson>
+  >({ property: "firstName", isDescending: true });
+
   const [showPeople, setShowPeople] = useState<boolean>(false);
   const buttonText = showPeople ? "Show widgets" : "show People";
   const [query, setQuery] = useState<string>("");
-  const [widgetSortProperty, setWidgetSortProperty] = useState<
-    ISroperty<IWidget>
-  >({
-    property: "title",
-    isDescending: true,
-  });
-  const [peopleSortProperty, setPeopleSortProperty] = useState<
-    ISroperty<IPerson>
-  >({
-    property: "firstName",
-    isDescending: true,
-  });
+
   return (
     <>
       <button
@@ -53,10 +50,9 @@ function App() {
       {!showPeople && (
         <>
           <h2>Widegets: </h2>
-          <Sorters<IWidget>
-            object={widgets[0]}
-            setProperty={(propertyType) => setWidgetSortProperty(propertyType)}
-          />
+          <Sorters dataSource={widgets} initialSortProperty="title">
+            {(widget) => <WidgetRenderer {...widget} />}
+          </Sorters>
           <br />
           <Filters
             object={widgets[0]}
@@ -107,10 +103,9 @@ function App() {
         </>
       )}
       <h2>People: </h2>
-      <Sorters<IPerson>
-        object={people[0]}
-        setProperty={(propertyType) => setPeopleSortProperty(propertyType)}
-      />
+      <Sorters dataSource={people} initialSortProperty="firstName">
+        {(person) => <PeopleRenderer {...person} />}
+      </Sorters>
       <br />
       <Filters
         object={people[0]}

@@ -19,13 +19,13 @@ export default function Filters<T>(props: IFiltersProps<T>) {
               key={`${key}-true`}
               title={`${key}-true`}
               id={`${key}-true`}
+              className="m1 -ml3"
               type="checkbox"
               value={key}
               checked={properties.some(
                 (property) =>
                   property.property === key && property.isTruthySelected
               )}
-              className="m1 -ml3"
               onChange={() =>
                 onChangeFilter({
                   property: key as any,
@@ -40,13 +40,13 @@ export default function Filters<T>(props: IFiltersProps<T>) {
               key={`${key}-false`}
               title={`${key}-false`}
               id={`${key}-false`}
+              className="m1 -ml3"
               type="checkbox"
               value={key}
               checked={properties.some(
                 (property) =>
                   property.property === key && !property.isTruthySelected
               )}
-              className="m1 -ml3"
               onChange={() =>
                 onChangeFilter({
                   property: key as any,

@@ -1,8 +1,8 @@
-import IProperty from "../interface/IProperty";
+import ISroperty from "../interface/ISroperty";
 
 export interface ISortersProps<T> {
   object: T;
-  setProperty: (propertyType: IProperty<T>) => void;
+  setProperty: (propertyType: ISroperty<T>) => void;
 }
 
 export function Sorters<T extends {}>(props: ISortersProps<T>) {

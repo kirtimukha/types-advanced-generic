@@ -4,7 +4,7 @@ import widgets from "./mock-data/widgets";
 import genericSearch from "./utils/genericSearch";
 import SearchInput from "./components/SearchInput";
 import genericSort from "./utils/genericSort";
-import IProperty from "./interface/IProperty";
+import ISroperty from "./interface/ISroperty";
 import IWidget from "./interface/IWidget";
 import IPerson from "./interface/IPerson";
 import { Sorters } from "./components/Sorters";
@@ -12,25 +12,26 @@ import WidgetRenderer from "./components/renders/WidgetRenderer";
 import PeopleRenderer from "./components/renders/PeopleRenderer";
 import genericFilter from "./utils/genericFilter";
 import Filters from "./components/Filters";
+import IFilter from "./interface/IFilter";
 
 function App() {
   const [widgetFilterProperties, setWidgetFilterProperties] = useState<
-    Array<keyof IWidget>
+    Array<IFilter<IWidget>>
   >([]);
   const [peopleFilterProperties, setPeopleFilterProperties] = useState<
-    Array<keyof IPerson>
+    Array<IFilter<IPerson>>
   >([]);
   const [showPeople, setShowPeople] = useState<boolean>(false);
   const buttonText = showPeople ? "Show widgets" : "show People";
   const [query, setQuery] = useState<string>("");
   const [widgetSortProperty, setWidgetSortProperty] = useState<
-    IProperty<IWidget>
+    ISroperty<IWidget>
   >({
     property: "title",
     isDescending: true,
   });
   const [peopleSortProperty, setPeopleSortProperty] = useState<
-    IProperty<IPerson>
+    ISroperty<IPerson>
   >({
     property: "firstName",
     isDescending: true,
@@ -61,11 +62,19 @@ function App() {
             object={widgets[0]}
             properties={widgetFilterProperties}
             onChangeFilter={(property) => {
-              widgetFilterProperties.includes(property)
+              const matchingFilters = widgetFilterProperties.filter(
+                (widgetFilterProperty) =>
+                  widgetFilterProperty.property === property.property &&
+                  widgetFilterProperty.isTruthySelected ===
+                    property.isTruthySelected
+              );
+              matchingFilters.length > 0
                 ? setWidgetFilterProperties(
                     widgetFilterProperties.filter(
-                      (widgetFilterProperties) =>
-                        widgetFilterProperties !== property
+                      (widgetFilterProperty) =>
+                        widgetFilterProperty.property === property.property &&
+                        widgetFilterProperty.isTruthySelected ===
+                          property.isTruthySelected
                     )
                   )
                 : setWidgetFilterProperties([

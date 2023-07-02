@@ -1,7 +1,9 @@
+import IFilter from "../interface/IFilter";
+
 export interface IFiltersProps<T> {
   object: T;
-  properties: Array<keyof T>;
-  onChangeFilter: (property: keyof T) => void;
+  properties: Array<IFilter<T>>;
+  onChangeFilter: (property: IFilter<T>) => void;
 }
 
 export default function Filters<T>(props: IFiltersProps<T>) {
@@ -14,17 +16,46 @@ export default function Filters<T>(props: IFiltersProps<T>) {
         return (
           <>
             <input
-              key={key}
-              title={key}
+              key={`${key}-true`}
+              title={`${key}-true`}
+              id={`${key}-true`}
               type="checkbox"
               value={key}
-              checked={properties.some((property) => property === key)}
-              id={key}
+              checked={properties.some(
+                (property) =>
+                  property.property === key && property.isTruthySelected
+              )}
               className="m1 -ml3"
-              onChange={() => onChangeFilter(key as any)}
+              onChange={() =>
+                onChangeFilter({
+                  property: key as any,
+                  isTruthySelected: true,
+                })
+              }
             />
             &nbsp;
-            <label htmlFor={key}>[ {key} ] is truthy!</label>
+            <label htmlFor={`${key}-true`}>[ {key} ] is truthy!</label>
+            &nbsp;&nbsp;&nbsp;
+            <input
+              key={`${key}-false`}
+              title={`${key}-false`}
+              id={`${key}-false`}
+              type="checkbox"
+              value={key}
+              checked={properties.some(
+                (property) =>
+                  property.property === key && !property.isTruthySelected
+              )}
+              className="m1 -ml3"
+              onChange={() =>
+                onChangeFilter({
+                  property: key as any,
+                  isTruthySelected: false,
+                })
+              }
+            />
+            &nbsp;
+            <label htmlFor={`${key}-false`}>[ {key} ] is falsy!</label>
             &nbsp;&nbsp;&nbsp;
           </>
         );

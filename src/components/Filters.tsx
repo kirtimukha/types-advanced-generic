@@ -56,7 +56,7 @@ export default function Filters<T>(props: IFiltersProps<T>) {
             />
             &nbsp;
             <label htmlFor={`${key}-false`}>[ {key} ] is falsy!</label>
-            &nbsp;&nbsp;&nbsp;
+            <br />
           </>
         );
       })}

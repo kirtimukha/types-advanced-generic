@@ -62,25 +62,37 @@ function App() {
             object={widgets[0]}
             properties={widgetFilterProperties}
             onChangeFilter={(property) => {
-              const matchingFilters = widgetFilterProperties.filter(
+              const propertyMatch = widgetFilterProperties.some(
+                (widgetFilterProperty) =>
+                  widgetFilterProperty.property === property.property
+              );
+              const fullMatch = widgetFilterProperties.some(
                 (widgetFilterProperty) =>
                   widgetFilterProperty.property === property.property &&
                   widgetFilterProperty.isTruthySelected ===
                     property.isTruthySelected
               );
-              matchingFilters.length > 0
-                ? setWidgetFilterProperties(
-                    widgetFilterProperties.filter(
-                      (widgetFilterProperty) =>
-                        widgetFilterProperty.property === property.property &&
-                        widgetFilterProperty.isTruthySelected ===
-                          property.isTruthySelected
-                    )
+              if (fullMatch) {
+                setWidgetFilterProperties(
+                  widgetFilterProperties.filter(
+                    (widgetFilterProperty) =>
+                      widgetFilterProperty.property !== property.property
                   )
-                : setWidgetFilterProperties([
-                    ...widgetFilterProperties,
-                    property,
-                  ]);
+                );
+              } else if (propertyMatch) {
+                setWidgetFilterProperties([
+                  ...widgetFilterProperties.filter(
+                    (widgetFilterProperty) =>
+                      widgetFilterProperty.property !== property.property
+                  ),
+                  property,
+                ]);
+              } else {
+                setWidgetFilterProperties([
+                  ...widgetFilterProperties,
+                  property,
+                ]);
+              }
             }}
           />
           {widgets
@@ -104,14 +116,34 @@ function App() {
         object={people[0]}
         properties={peopleFilterProperties}
         onChangeFilter={(property) => {
-          peopleFilterProperties.includes(property)
-            ? setPeopleFilterProperties(
-                peopleFilterProperties.filter(
-                  (peopleFilterProperties) =>
-                    peopleFilterProperties !== property
-                )
+          const propertyMatch = peopleFilterProperties.some(
+            (peopleFilterProperty) =>
+              peopleFilterProperty.property === property.property
+          );
+          const fullMatch = peopleFilterProperties.some(
+            (peopleFilterProperty) =>
+              peopleFilterProperty.property === property.property &&
+              peopleFilterProperty.isTruthySelected ===
+                property.isTruthySelected
+          );
+          if (fullMatch) {
+            setPeopleFilterProperties(
+              peopleFilterProperties.filter(
+                (peopleFilterProperty) =>
+                  peopleFilterProperty.property !== property.property
               )
-            : setPeopleFilterProperties([...peopleFilterProperties, property]);
+            );
+          } else if (propertyMatch) {
+            setPeopleFilterProperties([
+              ...peopleFilterProperties.filter(
+                (peopleFilterProperty) =>
+                  peopleFilterProperty.property !== property.property
+              ),
+              property,
+            ]);
+          } else {
+            setPeopleFilterProperties([...peopleFilterProperties, property]);
+          }
         }}
       />
 
